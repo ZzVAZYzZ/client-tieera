@@ -157,7 +157,7 @@ const Nav = () => {
   const handleLogout = async () => {
     try {
       const backendUrl =
-        process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
       // 🧠 Gọi API logout để xoá refreshToken trong DB + cookie
       await fetch(`${backendUrl}/api/users/logout`, {
