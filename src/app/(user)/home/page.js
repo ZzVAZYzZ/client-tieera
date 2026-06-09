@@ -197,7 +197,7 @@ export default function Page() {
   // TABLET: thu nhỏ từ laptop, 2 sp / hàng, font nhỏ hơn, giảm khoảng cách
   if (isTablet) {
     return (
-      <div className="flex flex-col items-center gap-16 px-6 pb-16">
+      <div className="flex flex-col items-center gap-16  pb-16">
         {/* banner */}
         <img src={Picture.src} alt="banner" className="w-full" />
 
@@ -320,7 +320,7 @@ export default function Page() {
                 >
                   <img
                     src={getMainImage(item)}
-                    className="w-full h-52 object-cover"
+                    className="w-full h-42 object-cover"
                   />
                   <div className="w-full px-4 pb-4 text-left flex flex-col gap-2">
                     <p className="text-[16px] font-medium line-clamp-2">

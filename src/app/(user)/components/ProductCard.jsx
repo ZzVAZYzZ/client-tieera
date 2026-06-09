@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 const formatPriceVND = (input) =>
   new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 0 }).format(
-    toIntegerVND(input)
+    toIntegerVND(input),
   );
 
 const ProductCard = ({ item, isFavorite, onToggleFavorite }) => {
@@ -14,7 +14,9 @@ const ProductCard = ({ item, isFavorite, onToggleFavorite }) => {
 
   const goToDetail = () => {
     const id = item?.product_id;
-    const cat = String(item?.Category?.name || "").trim().toLowerCase();
+    const cat = String(item?.Category?.name || "")
+      .trim()
+      .toLowerCase();
     if (!id) return;
     const map = {
       nhan: "ring",
@@ -47,11 +49,11 @@ const ProductCard = ({ item, isFavorite, onToggleFavorite }) => {
           </div>
         )}
       </div>
-      <div className="flex-1 w-full px-4 py-3 flex flex-col gap-2">
+      <div className="flex-1 w-full px-4 py-3 flex flex-col gap-2 min-w-0">
         <div className="text-base sm:text-lg font-medium leading-snug line-clamp-2">
           {item?.name}
         </div>
-        <div className="mt-auto">
+        <div className="mt-auto min-w-0">
           {(() => {
             const priceInt = toIntegerVND(item?.price);
             const discountInt = toIntegerVND(item?.discount_price);
@@ -60,20 +62,22 @@ const ProductCard = ({ item, isFavorite, onToggleFavorite }) => {
               Number.isFinite(discountInt) &&
               discountInt > 0 &&
               discountInt < priceInt;
+
             const finalPrice = hasDiscount
               ? Math.max(priceInt - discountInt, 0)
               : priceInt;
+
             return hasDiscount ? (
-              <div className="flex items-baseline gap-2">
-                <span className="text-[15px] sm:text-[16px] font-semibold text-[#9B8D6F]">
+              <div className="flex flex-col leading-tight">
+                <span className="text-[15px] sm:text-[16px] font-semibold text-[#9B8D6F] break-words">
                   {formatPriceVND(finalPrice)} đ
                 </span>
-                <span className="text-[13px] sm:text-[14px] text-gray-400 line-through">
+                <span className="text-[13px] sm:text-[14px] text-gray-400 line-through break-words">
                   {formatPriceVND(priceInt)} đ
                 </span>
               </div>
             ) : (
-              <div className="text-[15px] sm:text-[16px] text-[#9B8D6F]">
+              <div className="text-[15px] sm:text-[16px] text-[#9B8D6F] break-words">
                 {formatPriceVND(priceInt)} đ
               </div>
             );

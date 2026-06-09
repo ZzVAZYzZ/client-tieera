@@ -90,19 +90,17 @@ const Nav = () => {
   }, [open]);
 
   // ❌ đóng user menu khi click ra ngoài
-  React.useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setIsUserMenuOpen(false);
-      }
-      // 👇 THÊM LOGIC ĐÓNG MENU HÓA ĐƠN
-      if (billMenuRef.current && !billMenuRef.current.contains(e.target)) {
-        setIsBillMenuOpen(false);
+  useEffect(() => {
+    const handleDown = (e) => {
+      if (!open) return;
+      if (panelRef.current && !panelRef.current.contains(e.target)) {
+        setOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+
+    document.addEventListener("pointerdown", handleDown); // ✅ FIX
+    return () => document.removeEventListener("pointerdown", handleDown);
+  }, [open]);
   useRedirect();
   // kết quả tìm kiếm
   const results = React.useMemo(() => {
@@ -955,36 +953,46 @@ const Nav = () => {
           <div className="fixed inset-0 z-50">
             {/* overlay */}
             <div
-              className="absolute inset-0 bg-black/50"
+              className="absolute inset-0 bg-black/40"
               onClick={() => setOpen(false)}
-              onTouchStart={() => {
-                setOpen(false);
-              }}
             />
 
-            <div
-              ref={panelRef}
-              className="relative z-51 h-full w-full flex flex-col items-center pt-6 px-3 pointer-events-none"
-            >
-              {/* SEARCH BOX */}
-              <div className="w-full max-w-[640px] pointer-events-auto">
-                <div className="w-full h-11 md:h-14 border rounded-full flex items-center px-4 md:px-6 bg-white shadow">
+            {/* panel */}
+            <div className="relative z-50 flex flex-col items-center pt-6 px-3">
+              <div
+                ref={panelRef}
+                onClick={(e) => e.stopPropagation()}
+                className="w-full max-w-[700px]"
+              >
+                {/* SEARCH INPUT */}
+                <div className="w-full h-12 rounded-full flex items-center px-4 bg-white shadow">
                   <input
                     ref={overlayInputRef}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Tìm kiếm sản phẩm"
-                    className="flex-1 outline-none placeholder-[#C0C0C0] bg-transparent text-sm md:text-base"
+                    className="flex-1 outline-none bg-transparent text-[14px]"
                   />
                   <SearchIcon />
                 </div>
-              </div>
 
-              {/* RESULT */}
-              <div className="mt-3 w-full max-w-[640px] max-h-[65vh] overflow-y-auto bg-white rounded-xl border shadow">
-                <div className="divide-y">
+                {/* RESULT LIST */}
+                <div
+                  className="
+            mt-4 
+            max-h-[65vh] 
+            overflow-y-auto 
+            bg-white 
+            rounded-xl 
+            shadow 
+            divide-y
+          "
+                  style={{
+                    WebkitOverflowScrolling: "touch", // 🔥 scroll mượt iOS
+                  }}
+                >
                   {debounced && results.length === 0 && (
-                    <div className="p-4 text-sm text-gray-500 text-center">
+                    <div className="p-4 text-sm text-gray-500">
                       Không tìm thấy sản phẩm
                     </div>
                   )}
@@ -993,35 +1001,25 @@ const Nav = () => {
                     <div
                       key={item.product_id}
                       onClick={() => goToProduct(item)}
-                      className="flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 cursor-pointer hover:bg-gray-50"
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") goToProduct(item);
-                      }}
+                      className="
+                flex items-center gap-3 p-3 
+                active:bg-gray-100 
+                cursor-pointer
+              "
                     >
-                      {/* IMAGE */}
                       {getMainImage(item) && (
                         <img
                           src={getMainImage(item)}
                           alt={item.name}
-                          className="w-12 h-12 md:w-16 md:h-16 object-cover rounded"
+                          className="w-14 h-14 object-cover rounded"
                         />
                       )}
 
-                      {/* INFO */}
-                      <div className="flex-1">
-                        <div className="text-sm md:text-base text-gray-800 line-clamp-1">
-                          {item.name}
-                        </div>
-                        <div className="text-xs md:text-sm text-[#9B8D6F] mt-1">
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm truncate">{item.name}</div>
+                        <div className="text-xs text-[#9B8D6F] mt-1">
                           {formatPrice(item.price)}
                         </div>
-                      </div>
-
-                      {/* META */}
-                      <div className="text-[10px] md:text-xs text-gray-400 whitespace-nowrap">
-                        0 lượt bán
                       </div>
                     </div>
                   ))}
