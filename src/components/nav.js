@@ -405,9 +405,8 @@ const Nav = () => {
 
                   {/* dropdown */}
                   <div
-                    className={`overflow-hidden transition-all duration-300 ${
-                      isMobileBillOpen ? "max-h-[200px] mt-2" : "max-h-0"
-                    }`}
+                    className={`overflow-hidden transition-all duration-300 ${isMobileBillOpen ? "max-h-[200px] mt-2" : "max-h-0"
+                      }`}
                   >
                     <div className="bg-white rounded-xl  ">
                       <Link
@@ -714,7 +713,7 @@ const Nav = () => {
                 </div>
               </div>
 
-              <div className="mt-6 w-[900px] max-h-[70vh] overflow-auto bg-white rounded-xl border pointer-events-auto">
+              <div className="mt-6 w-[900px] max-h-[70vh] overflow-auto bg-white rounded-xl pointer-events-auto">
                 <div className="divide-y">
                   {debounced && results.length === 0 && (
                     <div className="p-4 text-sm text-gray-500">
@@ -846,7 +845,7 @@ const Nav = () => {
               </div>
 
               {/* RESULT */}
-              <div className="mt-4 w-full max-w-[700px] max-h-[65vh] overflow-y-auto bg-white rounded-xl border shadow pointer-events-auto">
+              <div className="mt-4 w-full max-w-[700px] max-h-[65vh] overflow-y-auto bg-white rounded-xl shadow pointer-events-auto">
                 <div className="divide-y">
                   {debounced && results.length === 0 && (
                     <div className="p-4 text-sm text-gray-500">
