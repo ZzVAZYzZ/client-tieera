@@ -320,7 +320,7 @@ export default function Page() {
                 >
                   <img
                     src={getMainImage(item)}
-                    className="w-full h-42 object-cover"
+                    className="w-full h-52 object-cover"
                   />
                   <div className="w-full px-4 pb-4 text-left flex flex-col gap-2">
                     <p className="text-[16px] font-medium line-clamp-2">
