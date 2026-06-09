@@ -149,8 +149,10 @@ const Nav = () => {
     const segment = map[cat] || "ring";
     if (id) {
       router.push(`/${segment}/${id}`);
-      setOpen(false);
       setQuery("");
+      setTimeout(() => {
+        setOpen(false);
+      }, 300);
     }
   };
 
@@ -409,7 +411,7 @@ const Nav = () => {
                       isMobileBillOpen ? "max-h-[200px] mt-2" : "max-h-0"
                     }`}
                   >
-                    <div className="bg-white rounded-xl border shadow-sm">
+                    <div className="bg-white rounded-xl  ">
                       <Link
                         href="/checkorder"
                         onClick={() => {
@@ -455,7 +457,14 @@ const Nav = () => {
                       <span>{user.name || "User"}</span>
                     </div>
 
-                    <Link href="/profile" className="pl-2 text-sm">
+                    <Link
+                      href="/profile"
+                      className="pl-2 text-sm"
+                      onClick={() => {
+                        setIsMobileBillOpen(false);
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
                       Thông tin người dùng
                     </Link>
 
@@ -922,7 +931,7 @@ const Nav = () => {
           </div>
 
           {/* menu scroll ngang */}
-          <div className=" h-6 flex  gap-[clamp(8px,3vw,16px)] text-[clamp(12px,3.5vw,14px)] ">
+          <div className=" h-6 flex  gap-[clamp(8px,6vw,100px)] text-[clamp(12px,3.5vw,14px)] ">
             <Link href={"/ring"} className="whitespace-nowrap">
               Nhẫn
             </Link>

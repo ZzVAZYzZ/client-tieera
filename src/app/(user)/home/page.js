@@ -15,16 +15,11 @@ export default function Page() {
   const isLaptop = width > 1024;
   const isTablet = width > 480 && width <= 1024;
   const isMobile = width <= 480;
-  const [currentIndex, setCurrentIndex] = React.useState(0);
-  const touchStartX = React.useRef(0);
 
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      next();
-    }, 5000);
+  useEffect(() => {
+    console.log(products);
+  }, [products]);
 
-    return () => clearInterval(interval);
-  }, []);
   const formatPriceVND = (input) =>
     new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 0 }).format(
       toIntegerVND(input),
@@ -64,24 +59,51 @@ export default function Page() {
     });
     return list.slice(0, 4);
   }, [products]);
+  const renderPrice = (item, size = "md") => {
+    const priceInt = toIntegerVND(item?.price);
+    const discountInt = toIntegerVND(item?.discount_price);
 
-  const next = () => {
-    setCurrentIndex((prev) => (prev === newArrivals.length - 1 ? 0 : prev + 1));
-  };
+    const hasDiscount =
+      Number.isFinite(priceInt) &&
+      Number.isFinite(discountInt) &&
+      discountInt > 0 &&
+      discountInt < priceInt;
 
-  const prev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? newArrivals.length - 1 : prev - 1));
-  };
+    const finalPrice = hasDiscount
+      ? Math.max(priceInt - discountInt, 0)
+      : priceInt;
 
-  const handleTouchStart = (e) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
+    const sizeMap = {
+      sm: {
+        price: "text-[13px]",
+        original: "text-[11px]",
+      },
+      md: {
+        price: "text-[14px]",
+        original: "text-[12px]",
+      },
+      lg: {
+        price: "text-[16px]",
+        original: "text-[14px]",
+      },
+    };
 
-  const handleTouchEnd = (e) => {
-    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    const s = sizeMap[size];
 
-    if (diff > 50) next(); // vuốt trái
-    if (diff < -50) prev(); // vuốt phải
+    return hasDiscount ? (
+      <div className="flex items-baseline gap-2">
+        <span className={`${s.price} font-semibold text-[#9B8D6F]`}>
+          {formatPriceVND(finalPrice)} ₫
+        </span>
+        <span className={`${s.original} text-gray-400 line-through`}>
+          {formatPriceVND(priceInt)} ₫
+        </span>
+      </div>
+    ) : (
+      <div className={`${s.price} text-[#9B8D6F]`}>
+        {formatPriceVND(priceInt)} ₫
+      </div>
+    );
   };
   if (isLaptop) {
     return (
@@ -278,7 +300,7 @@ export default function Page() {
   // MOBILE: thu nhỏ hơn nữa, layout xếp dọc, full width
   if (isMobile) {
     return (
-      <div className="flex flex-col items-center gap-10 px-4 pb-16">
+      <div className="flex flex-col items-center gap-10 pb-16">
         {/* banner */}
         <img src={Picture.src} alt="banner" className="w-full" />
 
@@ -300,12 +322,37 @@ export default function Page() {
                     src={getMainImage(item)}
                     className="w-full h-52 object-cover"
                   />
-
-                  <div className="p-3">
-                    <p className="text-[14px] font-medium line-clamp-2">
+                  <div className="w-full px-4 pb-4 text-left flex flex-col gap-2">
+                    <p className="text-[16px] font-medium line-clamp-2">
                       {item?.name}
                     </p>
-                  </div>
+                    {(() => {
+                      const priceInt = toIntegerVND(item?.price);
+                      const discountInt = toIntegerVND(item?.discount_price);
+                      const hasDiscount =
+                        Number.isFinite(priceInt) &&
+                        Number.isFinite(discountInt) &&
+                        discountInt > 0 &&
+                        discountInt < priceInt;
+                      const finalPrice = hasDiscount
+                        ? Math.max(priceInt - discountInt, 0)
+                        : priceInt;
+                      return hasDiscount ? (
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-[14px] font-semibold text-[#9B8D6F]">
+                            {formatPriceVND(finalPrice)} ₫
+                          </span>
+                          <span className="text-[12px] text-gray-400 line-through">
+                            {formatPriceVND(priceInt)} ₫
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="text-[14px] text-[#9B8D6F]">
+                          {formatPriceVND(priceInt)} ₫
+                        </div>
+                      );
+                    })()}
+                  </div>{" "}
                 </div>
               ))}
             </div>
