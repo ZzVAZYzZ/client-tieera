@@ -49,7 +49,7 @@ const Nav = () => {
   useAuth();
   // 🕓 debounce tìm kiếm
   React.useEffect(() => {
-    const t = setTimeout(() => setDebounced(query.trim()), 1000);
+    const t = setTimeout(() => setDebounced(query.trim()), 300);
     return () => clearTimeout(t);
   }, [query]);
 
@@ -369,6 +369,41 @@ const Nav = () => {
 
               {/* menu items */}
               <div className="flex flex-col gap-4">
+                {user ? (
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center gap-3">
+                      <Image
+                        src={
+                          user?.avatar ||
+                          "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
+                        }
+                        alt="User Avatar"
+                        width={35}
+                        height={35}
+                        className="rounded-full"
+                      />
+                      <span>{user.name || "User"}</span>
+                    </div>
+
+                    {user.role === "admin" && (
+                      <Link href="/dashboard" className="pl-2 text-sm">
+                        Quản lý cho Admin
+                      </Link>
+                    )}
+
+                    <button
+                      onClick={handleLogout}
+                      className="text-left pl-2 text-sm text-red-500"
+                    >
+                      Đăng xuất
+                    </button>
+                  </div>
+                ) : (
+                  <Link href="/login" className="flex items-center gap-3">
+                    <UserIcon className={iconClass} />
+                    <span>Đăng Nhập</span>
+                  </Link>
+                )}
                 <Link
                   href="/favorite"
                   className="flex items-center gap-3"
@@ -405,8 +440,9 @@ const Nav = () => {
 
                   {/* dropdown */}
                   <div
-                    className={`overflow-hidden transition-all duration-300 ${isMobileBillOpen ? "max-h-[200px] mt-2" : "max-h-0"
-                      }`}
+                    className={`overflow-hidden transition-all duration-300 ${
+                      isMobileBillOpen ? "max-h-[200px] mt-2" : "max-h-0"
+                    }`}
                   >
                     <div className="bg-white rounded-xl  ">
                       <Link
@@ -437,51 +473,23 @@ const Nav = () => {
                     </div>
                   </div>
                 </div>
-
-                {user ? (
-                  <div className="flex flex-col gap-3">
-                    <div className="flex items-center gap-3">
-                      <Image
-                        src={
-                          user?.avatar ||
-                          "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
-                        }
-                        alt="User Avatar"
-                        width={30}
-                        height={30}
-                        className="rounded-full"
-                      />
-                      <span>{user.name || "User"}</span>
-                    </div>
-
-                    <Link
-                      href="/profile"
-                      className="pl-2 text-sm"
-                      onClick={() => {
-                        setIsMobileBillOpen(false);
-                        setIsMobileMenuOpen(false);
-                      }}
-                    >
-                      Thông tin người dùng
-                    </Link>
-
-                    {user.role === "admin" && (
-                      <Link href="/dashboard" className="pl-2 text-sm">
-                        Quản lý cho Admin
-                      </Link>
-                    )}
-
-                    <button
-                      onClick={handleLogout}
-                      className="text-left pl-2 text-sm text-red-500"
-                    >
-                      Đăng xuất
-                    </button>
-                  </div>
-                ) : (
-                  <Link href="/login" className="flex items-center gap-3">
-                    <UserIcon className={iconClass} />
-                    <span>Đăng Nhập</span>
+                {user && (
+                  <Link
+                    href="/profile"
+                    onClick={() => {
+                      setIsMobileBillOpen(false);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex items-center gap-3"
+                  >
+                    <Image
+                      src={profileicon}
+                      className={iconClass}
+                      alt="Profile Icon"
+                      width={16}
+                      height={16}
+                    />
+                    <span>Thông tin người dùng</span>
                   </Link>
                 )}
               </div>
@@ -713,7 +721,7 @@ const Nav = () => {
                 </div>
               </div>
 
-              <div className="mt-6 w-[900px] max-h-[70vh] overflow-auto bg-white rounded-xl pointer-events-auto">
+              <div className="mt-6 w-[900px] max-h-[70vh] overflow-auto bg-white rounded-xl  pointer-events-auto">
                 <div className="divide-y">
                   {debounced && results.length === 0 && (
                     <div className="p-4 text-sm text-gray-500">

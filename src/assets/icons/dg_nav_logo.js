@@ -3,12 +3,14 @@ import React from "react";
 const DgNavLogo = () => {
   return (
     <svg
-      width="200"
-      height="150"
       viewBox="0 0 200 150"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-[100px] md:w-[160px] lg:w-[200px]"
+      className="
+        w-[80px] h-[60px]       /* mobile */
+        md:w-[140px] md:h-[100px]  /* tablet */
+        lg:w-[200px] lg:h-[150px]  /* desktop */
+      "
     >
       {/* Mask 0 */}
       <mask

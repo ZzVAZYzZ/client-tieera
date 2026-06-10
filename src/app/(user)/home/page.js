@@ -302,7 +302,11 @@ export default function Page() {
     return (
       <div className="flex flex-col items-center gap-10 pb-16">
         {/* banner */}
-        <img src={Picture.src} alt="banner" className="w-full" />
+        <img
+          src={Picture.src}
+          alt="banner"
+          className="w-full h-[200px] object-cover"
+        />
 
         {/* Browse New Arrivals */}
         <div className="flex flex-col gap-6 w-full">
@@ -316,11 +320,11 @@ export default function Page() {
                 <div
                   key={item.product_id}
                   onClick={() => goToProduct(item)}
-                  className="min-w-[85%] flex-shrink-0 border rounded-xl overflow-hidden"
+                  className="min-w-[65%] max-w-[240px] flex-shrink-0 border border-[#ada7a7] rounded-xl overflow-hidden"
                 >
                   <img
                     src={getMainImage(item)}
-                    className="w-full h-52 object-cover"
+                    className="w-full h-40 object-cover"
                   />
                   <div className="w-full px-4 pb-4 text-left flex flex-col gap-2">
                     <p className="text-[16px] font-medium line-clamp-2">
