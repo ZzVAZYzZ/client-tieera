@@ -297,13 +297,12 @@ export default function Page() {
             <Image width={130} height={90} src={logo.src} alt="logo" />
           </Link>
 
-          {/* Ảnh minh hoạ nhỏ phía trên form (tuỳ thích, có thể bỏ) */}
           <div className="w-full flex justify-center mt-4 mb-2">
-            <img
+            {/* <img
               src={loginImage.src}
               alt="login"
               className="w-full max-w-xs rounded-xl object-cover"
-            />
+            /> */}
           </div>
 
           <form

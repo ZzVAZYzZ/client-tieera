@@ -227,11 +227,11 @@ export default function page() {
           </Link>
 
           <div className="w-full flex justify-center mt-4 mb-2">
-            <img
+            {/* <img
               src={loginImage.src}
               alt="register"
               className="w-full max-w-xs rounded-xl object-cover"
-            />
+            /> */}
           </div>
 
           <form
