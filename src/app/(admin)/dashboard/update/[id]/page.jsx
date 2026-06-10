@@ -16,6 +16,9 @@ const Page = () => {
     stock_quantity: 0,
     status: "active",
     color: "",
+    stone_type: "",
+    stone_shape: "",
+    weight: 0,
   });
 
   const [images, setImages] = useState([null, null, null, null, null]);
@@ -26,6 +29,7 @@ const Page = () => {
   const { fetchProductById } = useFetchProductById();
   useEffect(() => {
     fetchProductById(product_id);
+    console.log(productDetail);
   }, []);
   // ✅ Hàm chuyển URL thành File
   //@param {string} url - đường dẫn ảnh từ server
@@ -37,6 +41,9 @@ const Page = () => {
     const ext = blob.type.split("/")[1]; // lấy phần mở rộng tự động (png, jpeg)
     return new File([blob], `${filename}.${ext}`, { type: blob.type });
   };
+  useEffect(() => {
+    console.log({ error, success });
+  }, [error, success]);
   useEffect(() => {
     const convertImages = async () => {
       if (productDetail) {
@@ -52,6 +59,9 @@ const Page = () => {
           stock_quantity: productDetail.stock_quantity,
           discount_price: productDetail.discount_price,
           status: productDetail.status,
+          stone_type: productDetail.stone_type,
+          stone_shape: productDetail.stone_shape,
+          weight: productDetail.weight,
         }));
 
         // ✅ Chuẩn bị mảng hình tối đa 5 phần tử
@@ -90,8 +100,22 @@ const Page = () => {
   };
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    console.log(form);
+    const { name, value } = e.target;
+
+    setForm({
+      ...form,
+      [name]:
+        name === "price" ||
+        name === "discount_price" ||
+        name === "stock_quantity" ||
+        name === "weight"
+          ? value === ""
+            ? null // ✅ QUAN TRỌNG
+            : Number(value)
+          : value === ""
+            ? null // optional cho text
+            : value,
+    });
   };
 
   const handleSubmit = async () => {
@@ -222,6 +246,44 @@ const Page = () => {
             />
           </div>
         </div>
+        {/* Loại đá & Hình dạng đá & Trọng lượng */}
+        <div className="flex flex-row gap-6">
+          <div className="flex-1">
+            <h3 className="font-medium mb-2">Loại đá</h3>
+            <input
+              className="border rounded-lg px-4 py-2 w-full outline-none focus:border-[#9B8D6F]"
+              placeholder="Loại đá"
+              type="text"
+              name="stone_type"
+              onChange={handleChange}
+              defaultValue={productDetail.stone_type || ""}
+            />
+          </div>
+
+          <div className="flex-1">
+            <h3 className="font-medium mb-2">Hình dạng đá</h3>
+            <input
+              className="border rounded-lg px-4 py-2 w-full outline-none focus:border-[#9B8D6F]"
+              placeholder="Hình dạng đá"
+              type="text"
+              name="stone_shape"
+              onChange={handleChange}
+              defaultValue={productDetail.stone_shape || ""}
+            />
+          </div>
+
+          <div className="flex-1">
+            <h3 className="font-medium mb-2">Trọng lượng</h3>
+            <input
+              type="number"
+              name="weight"
+              onChange={handleChange}
+              className="border rounded-lg px-4 py-2 w-full outline-none focus:border-[#9B8D6F]"
+              placeholder="Trọng lượng"
+              defaultValue={productDetail.weight || ""}
+            />
+          </div>
+        </div>
 
         {/* Mô tả sản phẩm */}
         <div>
@@ -341,4 +403,3 @@ const Page = () => {
 };
 
 export default Page;
-
