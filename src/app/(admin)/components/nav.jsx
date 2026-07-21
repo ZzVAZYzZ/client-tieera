@@ -24,6 +24,10 @@ const Nav = () => {
   const [isShowIsBlock, setIsShowIsBlock] = React.useState(false);
   useAuth();
   useRedirect();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 340173087d8917f22f1c39af073ed3a9f86b8c03
   // @param null
   // @result gọi API logout, xoá token client, reset Redux user, điều hướng về trang home
   const handleLogout = async () => {

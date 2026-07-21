@@ -13,7 +13,11 @@ export default function Page() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
   useRefresh()
   const [status, setStatus] = React.useState("waiting"); // waiting | success | failed
+<<<<<<< HEAD
 
+=======
+  const backendIp = "10.102.62.243";
+>>>>>>> 340173087d8917f22f1c39af073ed3a9f86b8c03
   // ✅ Tạo object chứa dữ liệu order thực tế
   const objNew = React.useMemo(() => {
     if (!user || !orderInfo) return null;

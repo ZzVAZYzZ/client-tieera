@@ -15,160 +15,213 @@ const Filters = ({
   const containerClass = [
     "w-full lg:w-[260px] flex flex-col gap-4 bg-white",
     "border border-[#E5E5E5] rounded-lg p-4 shadow-sm",
-    "max-h-[80vh] overflow-y-auto",
-    "lg:max-h-none lg:overflow-visible", // 🔥 thêm dòng này
     className,
   ]
     .filter(Boolean)
     .join(" ");
 
-  const labelClass = "flex items-center gap-2 cursor-pointer";
-  const textClass = "text-[13px] sm:text-[14px]";
-
   return (
     <div className={containerClass}>
-      {/* TITLE */}
-      <p className="text-[18px] sm:text-[20px] lg:text-[22px] font-semibold">
-        Bộ lọc
-      </p>
+      <p className="text-[20px] lg:text-[24px] font-semibold">Bộ lọc</p>
 
-      <div className="flex flex-col gap-4" style={{ accentColor: "black" }}>
-        {/* PRICE */}
-        <div className="flex flex-col gap-2">
-          <p className="text-[15px] sm:text-[16px] lg:text-[18px] font-medium">
-            Theo giá
-          </p>
-
-          <label className={labelClass}>
+      <div
+        className="flex flex-col gap-4 text-[14px] sm:text-[15px]"
+        style={{ accentColor: "black" }}
+      >
+        {/* lọc theo giá tiền */}
+        <div className="flex flex-col gap-2 lg:ml-1">
+          <p className="text-[18px] lg:text-[20px] font-medium">Theo giá</p>
+          <label className="flex items-center cursor-pointer">
             <input
               type="checkbox"
+              name="priceGroup"
+              value="1"
               checked={priceRange === "1"}
               onChange={(e) =>
-                onPriceRangeChange?.(e.target.checked ? "1" : "")
+                onPriceRangeChange?.(e.target.checked ? e.target.value : "")
               }
+              className="mr-2 cursor-pointer"
             />
-            <p className={textClass}>Dưới 20 triệu</p>
+            <p>Dưới 20 triệu</p>
           </label>
-
-          <label className={labelClass}>
+          <label className="flex items-center cursor-pointer">
             <input
               type="checkbox"
+              name="priceGroup"
+              value="2"
               checked={priceRange === "2"}
               onChange={(e) =>
-                onPriceRangeChange?.(e.target.checked ? "2" : "")
+                onPriceRangeChange?.(e.target.checked ? e.target.value : "")
               }
+              className="mr-2 cursor-pointer"
             />
-            <p className={textClass}>20 - 30 triệu</p>
+            <p>Từ 20 triệu đến 30 triệu</p>
           </label>
-
-          <label className={labelClass}>
+          <label className="flex items-center cursor-pointer">
             <input
               type="checkbox"
+              name="priceGroup"
+              value="3"
               checked={priceRange === "3"}
               onChange={(e) =>
-                onPriceRangeChange?.(e.target.checked ? "3" : "")
+                onPriceRangeChange?.(e.target.checked ? e.target.value : "")
               }
+              className="mr-2 cursor-pointer"
             />
-            <p className={textClass}>30 - 40 triệu</p>
+            <p>Từ 30 triệu đến 40 triệu</p>
           </label>
-
-          <label className={labelClass}>
+          <label className="flex items-center cursor-pointer">
             <input
               type="checkbox"
+              name="priceGroup"
+              value="4"
               checked={priceRange === "4"}
               onChange={(e) =>
-                onPriceRangeChange?.(e.target.checked ? "4" : "")
+                onPriceRangeChange?.(e.target.checked ? e.target.value : "")
               }
+              className="mr-2 cursor-pointer"
             />
-            <p className={textClass}>40 - 100 triệu</p>
+            <p>Từ 40 triệu đến 100 triệu</p>
           </label>
         </div>
 
-        {/* COLOR */}
-        <div className="flex flex-col gap-2">
-          <p className="text-[15px] sm:text-[16px] lg:text-[18px] font-medium">
-            Màu sắc
-          </p>
-
-          <label className={labelClass}>
+        {/* lọc theo màu sắc */}
+        <div className="flex flex-col gap-2 lg:ml-1">
+          <p className="text-[18px] lg:text-[20px] font-medium">Màu sắc</p>
+          <label className="flex items-center cursor-pointer">
             <input
               type="checkbox"
+              name="colorGroup"
+              value="5"
               checked={color === "5"}
-              onChange={(e) => onColorChange?.(e.target.checked ? "5" : "")}
-              className="appearance-none w-[14px] h-[14px] border-2 border-[#F1DC87] checked:bg-[#F1DC87]"
+              onChange={(e) =>
+                onColorChange?.(e.target.checked ? e.target.value : "")
+              }
+              className="mr-2 appearance-none w-[13px] h-[13px] border-2 border-[#F1DC87] checked:bg-[#F1DC87] cursor-pointer"
             />
-            <p className={textClass}>Vàng</p>
+            <p>Vàng</p>
           </label>
-
-          <label className={labelClass}>
+          <label className="flex items-center cursor-pointer">
             <input
               type="checkbox"
+              name="colorGroup"
+              value="6"
               checked={color === "6"}
-              onChange={(e) => onColorChange?.(e.target.checked ? "6" : "")}
-              className="appearance-none w-[14px] h-[14px] border-2 border-[#F2BAA8] checked:bg-[#F2BAA8]"
+              onChange={(e) =>
+                onColorChange?.(e.target.checked ? e.target.value : "")
+              }
+              className="mr-2 appearance-none w-[13px] h-[13px] border-2 border-[#F2BAA8] checked:bg-[#F2BAA8] cursor-pointer"
             />
-            <p className={textClass}>Vàng hồng</p>
+            <p>Vàng hồng</p>
           </label>
-
-          <label className={labelClass}>
+          <label className="flex items-center cursor-pointer">
             <input
               type="checkbox"
+              name="colorGroup"
+              value="7"
               checked={color === "7"}
-              onChange={(e) => onColorChange?.(e.target.checked ? "7" : "")}
-              className="appearance-none w-[14px] h-[14px] border-2 border-[#D6D6D6] checked:bg-[#D6D6D6]"
+              onChange={(e) =>
+                onColorChange?.(e.target.checked ? e.target.value : "")
+              }
+              className="mr-2 appearance-none w-[13px] h-[13px] border-2 border-[#D6D6D6] checked:bg-[#D6D6D6] cursor-pointer"
             />
-            <p className={textClass}>Trắng</p>
+            <p>Trắng</p>
           </label>
         </div>
 
-        {/* MATERIAL */}
-        <div className="flex flex-col gap-2">
-          <p className="text-[15px] sm:text-[16px] lg:text-[18px] font-medium">
-            Chất liệu
-          </p>
-
-          <label className={labelClass}>
+        {/* lọc theo chất liệu */}
+        <div className="flex flex-col gap-2 lg:ml-1">
+          <p className="text-[18px] lg:text-[20px] font-medium">Chất liệu</p>
+          <label className="flex items-center cursor-pointer">
             <input
               type="checkbox"
+              name="materialGroup"
+              value="8"
               checked={material === "8"}
-              onChange={(e) => onMaterialChange?.(e.target.checked ? "8" : "")}
+              onChange={(e) =>
+                onMaterialChange?.(e.target.checked ? e.target.value : "")
+              }
+              className="mr-2 cursor-pointer"
             />
-            <p className={textClass}>Vàng</p>
+            <p>Vàng</p>
           </label>
-
-          <label className={labelClass}>
+          <label className="flex items-center cursor-pointer">
             <input
               type="checkbox"
+              name="materialGroup"
+              value="9"
               checked={material === "9"}
-              onChange={(e) => onMaterialChange?.(e.target.checked ? "9" : "")}
+              onChange={(e) =>
+                onMaterialChange?.(e.target.checked ? e.target.value : "")
+              }
+              className="mr-2 cursor-pointer"
             />
-            <p className={textClass}>Kim cương</p>
+            <p>Kim cương</p>
           </label>
         </div>
       </div>
 
-      {/* SORT */}
-      <div className="border-t border-[#E5E5E5] pt-3">
-        <p className="text-[16px] sm:text-[18px] font-semibold mb-2">Sắp xếp</p>
+      <div className="border-t border-[#E5E5E5] pt-4">
+        <p className="text-[20px] font-semibold mb-3">Sắp xếp</p>
+        <div
+          className="flex flex-col gap-2 text-[14px] sm:text-[15px]"
+          style={{ accentColor: "black" }}
+        >
+          <label className="flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              name="sortGroup"
+              value="priceAsc"
+              checked={sortBy === "priceAsc"}
+              onChange={(e) =>
+                onSortChange?.(e.target.checked ? "priceAsc" : "")
+              }
+              className="mr-2 cursor-pointer"
+            />
+            <p>Giá từ thấp đến cao</p>
+          </label>
 
-        <div className="flex flex-col gap-2">
-          {[
-            { label: "Giá thấp → cao", value: "priceAsc" },
-            { label: "Giá cao → thấp", value: "priceDesc" },
-            { label: "Bán chạy", value: "bestSeller" },
-            { label: "A-Z", value: "nameAsc" },
-          ].map((item) => (
-            <label key={item.value} className={labelClass}>
-              <input
-                type="checkbox"
-                checked={sortBy === item.value}
-                onChange={(e) =>
-                  onSortChange?.(e.target.checked ? item.value : "")
-                }
-              />
-              <p className={textClass}>{item.label}</p>
-            </label>
-          ))}
+          <label className="flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              name="sortGroup"
+              value="priceDesc"
+              checked={sortBy === "priceDesc"}
+              onChange={(e) =>
+                onSortChange?.(e.target.checked ? "priceDesc" : "")
+              }
+              className="mr-2 cursor-pointer"
+            />
+            <p>Giá từ cao đến thấp</p>
+          </label>
+
+          <label className="flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              name="sortGroup"
+              value="bestSeller"
+              checked={sortBy === "bestSeller"}
+              onChange={(e) =>
+                onSortChange?.(e.target.checked ? "bestSeller" : "")
+              }
+              className="mr-2 cursor-pointer"
+            />
+            <p>Bán chạy</p>
+          </label>
+
+          <label className="flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              name="sortGroup"
+              value="nameAsc"
+              checked={sortBy === "nameAsc"}
+              onChange={(e) =>
+                onSortChange?.(e.target.checked ? "nameAsc" : "")
+              }
+              className="mr-2 cursor-pointer"
+            />
+            <p>A-Z</p>
+          </label>
         </div>
       </div>
     </div>

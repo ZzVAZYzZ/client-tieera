@@ -21,7 +21,7 @@ export default function Page() {
   const isLaptop = width > 1024;
   const isTablet = width > 480 && width <= 1024;
   const isMobile = width <= 480;
-  const [showFilter, setShowFilter] = React.useState(false);
+
   const displayedData = React.useMemo(() => {
     let list = Array.isArray(products) ? [...products] : [];
 
@@ -66,7 +66,7 @@ export default function Page() {
       else if (color === "7") colorName = "Trang";
       list = list.filter(
         (item) =>
-          String(item.color).toLowerCase() === String(colorName).toLowerCase(),
+          String(item.color).toLowerCase() === String(colorName).toLowerCase()
       );
     }
 
@@ -77,7 +77,7 @@ export default function Page() {
       list = list.filter(
         (item) =>
           String(item.material).toLowerCase() ===
-          String(materialName).toLowerCase(),
+          String(materialName).toLowerCase()
       );
     }
 
@@ -97,7 +97,7 @@ export default function Page() {
       {productsLoading && (
         <div className="p-4 text-sm text-gray-500">Đang tải sản phẩm...</div>
       )}
-      {error && (
+      {/* {error && (
         <div className="p-4 text-sm text-red-500">
           lỗi tải dữ liệu: {String(error)}
         </div>
@@ -106,7 +106,7 @@ export default function Page() {
         <div className="p-4 text-sm text-red-500">
           Lỗi tải danh sách yêu thích: {String(favoritesError)}
         </div>
-      )}
+      )} */}
     </>
   );
 
@@ -122,8 +122,7 @@ export default function Page() {
     } catch (err) {
       if (err?.message === "Missing access token") return;
       alert(
-        err?.message ||
-          "Không thể thêm sản phẩm vào danh sách yêu thích lúc này",
+        err?.message || "Không thể thêm sản phẩm vào danh sách yêu thích lúc này"
       );
     }
   };
@@ -134,29 +133,45 @@ export default function Page() {
   const handleMaterialChange = (value) => setMaterial(value);
   const handleSortChange = (value) => setSortBy(value);
 
-  return (
-    <div className="flex flex-col items-center mt-6 lg:mt-10 px-4 lg:px-0">
-      {/* TITLE */}
-      <div className="w-full max-w-[1200px] mb-4">
-        <p className="text-[22px] sm:text-[26px] lg:text-[32px] text-[#9B8D6F]">
-          Vòng tay
-        </p>
-      </div>
+  if (isLaptop) {
+    return (
+      <div className="flex flex-col items-center gap-10 mt-10">
+        <div className="w-[90%]">
+          <p className="text-[32px] text-[#9B8D6F] text-left">Vòng tay</p>
+        </div>
+        <div className="w-[90%] flex flex-row gap-8 xl:gap-[50px]">
+          <Filters
+            priceRange={priceRange}
+            color={color}
+            material={material}
+            sortBy={sortBy}
+            onPriceRangeChange={handlePriceChange}
+            onColorChange={handleColorChange}
+            onMaterialChange={handleMaterialChange}
+            onSortChange={handleSortChange}
+            className="lg:sticky lg:top-6 self-start"
+          />
 
-      {/* MOBILE BUTTON (giống 3 page kia) */}
-      <div className="w-full max-w-[1200px] mb-3 lg:hidden">
-        <button
-          onClick={() => setShowFilter(true)}
-          className="border px-3 py-2 rounded-lg text-sm"
-        >
-          Bộ lọc
-        </button>
+          <div className="flex-1">
+            {renderStatus()}
+            <ProductGrid
+              products={displayedData}
+              favorites={favoriteIds}
+              onToggleFavorite={handleFavoriteClick}
+            />
+          </div>
+        </div>
       </div>
+    );
+  }
 
-      {/* MAIN */}
-      <div className="w-full max-w-[1200px] flex gap-4 lg:gap-6 items-start">
-        {/* ✅ FILTER DESKTOP */}
-        <div className="hidden lg:block w-[260px] flex-shrink-0 border-r pr-4">
+  if (isTablet) {
+    return (
+      <div className="flex flex-col items-center gap-8 px-6 pb-14 pt-8">
+        <div className="w-full max-w-5xl">
+          <p className="text-[28px] text-[#9B8D6F] text-left">Vòng tay</p>
+        </div>
+        <div className="w-full max-w-5xl flex flex-col gap-6">
           <Filters
             priceRange={priceRange}
             color={color}
@@ -167,9 +182,36 @@ export default function Page() {
             onMaterialChange={handleMaterialChange}
             onSortChange={handleSortChange}
           />
-        </div>
 
-        {/* PRODUCT */}
+          <div className="flex-1">
+            {renderStatus()}
+            <ProductGrid
+              products={displayedData}
+              favorites={favoriteIds}
+              onToggleFavorite={handleFavoriteClick}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isMobile) {
+    return (
+      <div className="flex flex-col gap-6 px-4 pb-14 pt-6">
+        <p className="text-[22px] text-[#9B8D6F] text-left">Vòng tay</p>
+
+        <Filters
+          priceRange={priceRange}
+          color={color}
+          material={material}
+          sortBy={sortBy}
+          onPriceRangeChange={handlePriceChange}
+          onColorChange={handleColorChange}
+          onMaterialChange={handleMaterialChange}
+          onSortChange={handleSortChange}
+        />
+
         <div className="flex-1">
           {renderStatus()}
           <ProductGrid
@@ -179,36 +221,10 @@ export default function Page() {
           />
         </div>
       </div>
+    );
+  }
 
-      {/* 🔥 FILTER MOBILE DRAWER */}
-      {showFilter && (
-        <>
-          {/* overlay */}
-          <div
-            className="fixed inset-0 bg-black/40 z-40"
-            onClick={() => setShowFilter(false)}
-          />
-
-          {/* panel */}
-          <div className="fixed right-0 top-0 h-full w-[85%] sm:w-[380px] bg-white z-50 p-4 overflow-y-auto">
-            <div className="flex justify-between mb-4">
-              <p className="font-semibold">Bộ lọc</p>
-              <button onClick={() => setShowFilter(false)}>✕</button>
-            </div>
-
-            <Filters
-              priceRange={priceRange}
-              color={color}
-              material={material}
-              sortBy={sortBy}
-              onPriceRangeChange={handlePriceChange}
-              onColorChange={handleColorChange}
-              onMaterialChange={handleMaterialChange}
-              onSortChange={handleSortChange}
-            />
-          </div>
-        </>
-      )}
-    </div>
-  );
+  // fallback
+  return null;
 }
+

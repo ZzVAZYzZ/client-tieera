@@ -15,11 +15,23 @@ export default function Page() {
   const isLaptop = width > 1024;
   const isTablet = width > 480 && width <= 1024;
   const isMobile = width <= 480;
+<<<<<<< HEAD
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+  const touchStartX = React.useRef(0);
+=======
 
   useEffect(() => {
     console.log(products);
   }, [products]);
+>>>>>>> 340173087d8917f22f1c39af073ed3a9f86b8c03
 
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      next();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
   const formatPriceVND = (input) =>
     new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 0 }).format(
       toIntegerVND(input),
@@ -59,52 +71,29 @@ export default function Page() {
     });
     return list.slice(0, 4);
   }, [products]);
-  const renderPrice = (item, size = "md") => {
-    const priceInt = toIntegerVND(item?.price);
-    const discountInt = toIntegerVND(item?.discount_price);
+<<<<<<< HEAD
 
-    const hasDiscount =
-      Number.isFinite(priceInt) &&
-      Number.isFinite(discountInt) &&
-      discountInt > 0 &&
-      discountInt < priceInt;
-
-    const finalPrice = hasDiscount
-      ? Math.max(priceInt - discountInt, 0)
-      : priceInt;
-
-    const sizeMap = {
-      sm: {
-        price: "text-[13px]",
-        original: "text-[11px]",
-      },
-      md: {
-        price: "text-[14px]",
-        original: "text-[12px]",
-      },
-      lg: {
-        price: "text-[16px]",
-        original: "text-[14px]",
-      },
-    };
-
-    const s = sizeMap[size];
-
-    return hasDiscount ? (
-      <div className="flex items-baseline gap-2">
-        <span className={`${s.price} font-semibold text-[#9B8D6F]`}>
-          {formatPriceVND(finalPrice)} ₫
-        </span>
-        <span className={`${s.original} text-gray-400 line-through`}>
-          {formatPriceVND(priceInt)} ₫
-        </span>
-      </div>
-    ) : (
-      <div className={`${s.price} text-[#9B8D6F]`}>
-        {formatPriceVND(priceInt)} ₫
-      </div>
-    );
+  const next = () => {
+    setCurrentIndex((prev) => (prev === newArrivals.length - 1 ? 0 : prev + 1));
   };
+
+  const prev = () => {
+    setCurrentIndex((prev) => (prev === 0 ? newArrivals.length - 1 : prev - 1));
+  };
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e) => {
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+
+    if (diff > 50) next(); // vuốt trái
+    if (diff < -50) prev(); // vuốt phải
+  };
+=======
+  
+>>>>>>> 340173087d8917f22f1c39af073ed3a9f86b8c03
   if (isLaptop) {
     return (
       <div className="flex flex-col justify-center items-center gap-[200px]">
@@ -197,7 +186,7 @@ export default function Page() {
   // TABLET: thu nhỏ từ laptop, 2 sp / hàng, font nhỏ hơn, giảm khoảng cách
   if (isTablet) {
     return (
-      <div className="flex flex-col items-center gap-16  pb-16">
+      <div className="flex flex-col items-center gap-16 px-6 pb-16">
         {/* banner */}
         <img src={Picture.src} alt="banner" className="w-full" />
 
@@ -274,7 +263,13 @@ export default function Page() {
             </div>
             <div className="flex-1 flex flex-col justify-between text-black gap-3">
               <a className="text-[32px] font-bold">A</a>
+<<<<<<< HEAD
               <a className="text-[64px] font-extrabold text-[#A18B10]">LOVE</a>
+=======
+              <a className="text-[64px] font-extrabold text-[#A18B10]">
+                LOVE
+              </a>
+>>>>>>> 340173087d8917f22f1c39af073ed3a9f86b8c03
               <a className="text-[22px] font-bold">STORY WITHOUT LIMITS</a>
               <a className="text-[18px] font-light">
                 Couple rings are more than jewelry — they symbolize “two hearts,
@@ -300,16 +295,13 @@ export default function Page() {
   // MOBILE: thu nhỏ hơn nữa, layout xếp dọc, full width
   if (isMobile) {
     return (
-      <div className="flex flex-col items-center gap-10 pb-16">
+      <div className="flex flex-col items-center gap-10 px-4 pb-16">
         {/* banner */}
-        <img
-          src={Picture.src}
-          alt="banner"
-          className="w-full h-[200px] object-cover"
-        />
+        <img src={Picture.src} alt="banner" className="w-full" />
 
         {/* Browse New Arrivals */}
         <div className="flex flex-col gap-6 w-full">
+<<<<<<< HEAD
           <a className="text-[18px] font-semibold text-center">
             Browse New Arrivals
           </a>
@@ -320,46 +312,76 @@ export default function Page() {
                 <div
                   key={item.product_id}
                   onClick={() => goToProduct(item)}
-                  className="min-w-[65%] max-w-[240px] flex-shrink-0 border border-[#ada7a7] rounded-xl overflow-hidden"
+                  className="min-w-[85%] flex-shrink-0 border rounded-xl overflow-hidden"
                 >
                   <img
                     src={getMainImage(item)}
-                    className="w-full h-40 object-cover"
+                    className="w-full h-52 object-cover"
                   />
-                  <div className="w-full px-4 pb-4 text-left flex flex-col gap-2">
-                    <p className="text-[16px] font-medium line-clamp-2">
+
+                  <div className="p-3">
+                    <p className="text-[14px] font-medium line-clamp-2">
                       {item?.name}
                     </p>
-                    {(() => {
-                      const priceInt = toIntegerVND(item?.price);
-                      const discountInt = toIntegerVND(item?.discount_price);
-                      const hasDiscount =
-                        Number.isFinite(priceInt) &&
-                        Number.isFinite(discountInt) &&
-                        discountInt > 0 &&
-                        discountInt < priceInt;
-                      const finalPrice = hasDiscount
-                        ? Math.max(priceInt - discountInt, 0)
-                        : priceInt;
-                      return hasDiscount ? (
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-[14px] font-semibold text-[#9B8D6F]">
-                            {formatPriceVND(finalPrice)} ₫
-                          </span>
-                          <span className="text-[12px] text-gray-400 line-through">
-                            {formatPriceVND(priceInt)} ₫
-                          </span>
-                        </div>
-                      ) : (
-                        <div className="text-[14px] text-[#9B8D6F]">
-                          {formatPriceVND(priceInt)} ₫
-                        </div>
-                      );
-                    })()}
-                  </div>{" "}
+                  </div>
                 </div>
               ))}
             </div>
+=======
+          <a className="text-[22px] font-semibold text-center">
+            Browse New Arrivals
+          </a>
+          <div className="flex flex-col gap-5">
+            {newArrivals.map((item) => (
+              <div
+                key={item.product_id}
+                onClick={() => goToProduct(item)}
+                className="w-full flex flex-col gap-2 border border-[#D6D6D6] hover:shadow-md transition-shadow duration-300 rounded-md cursor-pointer"
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") goToProduct(item);
+                }}
+              >
+                <img
+                  src={getMainImage(item)}
+                  alt={item?.name}
+                  className="w-full h-56 mt-3 object-cover rounded-t-md"
+                />
+                <div className="w-full px-4 pb-4 text-left flex flex-col gap-2">
+                  <p className="text-[15px] font-medium line-clamp-2">
+                    {item?.name}
+                  </p>
+                  {(() => {
+                    const priceInt = toIntegerVND(item?.price);
+                    const discountInt = toIntegerVND(item?.discount_price);
+                    const hasDiscount =
+                      Number.isFinite(priceInt) &&
+                      Number.isFinite(discountInt) &&
+                      discountInt > 0 &&
+                      discountInt < priceInt;
+                    const finalPrice = hasDiscount
+                      ? Math.max(priceInt - discountInt, 0)
+                      : priceInt;
+                    return hasDiscount ? (
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-[14px] font-semibold text-[#9B8D6F]">
+                          {formatPriceVND(finalPrice)} ₫
+                        </span>
+                        <span className="text-[12px] text-gray-400 line-through">
+                          {formatPriceVND(priceInt)} ₫
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="text-[14px] text-[#9B8D6F]">
+                        {formatPriceVND(priceInt)} ₫
+                      </div>
+                    );
+                  })()}
+                </div>
+              </div>
+            ))}
+>>>>>>> 340173087d8917f22f1c39af073ed3a9f86b8c03
           </div>
         </div>
 
@@ -375,7 +397,13 @@ export default function Page() {
               <a className="text-[40px] font-extrabold text-[#A18B10] leading-none">
                 LOVE
               </a>
+<<<<<<< HEAD
               <a className="text-[18px] font-bold mt-1">STORY WITHOUT LIMITS</a>
+=======
+              <a className="text-[18px] font-bold mt-1">
+                STORY WITHOUT LIMITS
+              </a>
+>>>>>>> 340173087d8917f22f1c39af073ed3a9f86b8c03
               <a className="text-[14px] font-light mt-2">
                 Couple rings are more than jewelry — they symbolize “two hearts,
                 one rhythm.” Each design is crafted with care to reflect your
