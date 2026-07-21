@@ -15,12 +15,8 @@ const colors = [
   "#0097A7", // xanh teal
 ];
 
-<<<<<<< HEAD
 const SOCKET_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
-=======
-const SOCKET_URL = "http://localhost:8000";
->>>>>>> 340173087d8917f22f1c39af073ed3a9f86b8c03
 const ADMIN_ID = "399810b5-85e0-465d-9cd8-5dc79fc87bfa";
 
 const Page = () => {
