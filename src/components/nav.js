@@ -509,12 +509,12 @@ const Nav = () => {
         {/* about */}
         <div className="h-[100px] flex flex-row items-center justify-between mx-[65px]">
           <div className="flex flex-row items-center justify-center gap-[15px]">
-            <a href="#">
+            <Link href="#">
               <LocationIcon />
-            </a>
-            <a href="#">
+            </Link>
+            <Link href="#">
               <PhoneIcon />
-            </a>
+            </Link>
             <p>028 7939 3939</p>
           </div>
 
@@ -527,18 +527,18 @@ const Nav = () => {
           <div className="flex flex-row items-center justify-center gap-[70px]">
             <div className="flex flex-row items-center justify-center gap-[18px]">
               <div className="flex items-center justify-center">
-                <a
+                <Link
                   href="/favorite"
                   className="flex items-center justify-center"
                 >
                   <HeartIcon />
-                </a>
+                </Link>
               </div>
 
               <div className="relative">
-                <a href="/cart">
+                <Link href="/cart">
                   <CartIcon />
-                </a>
+                </Link>
               </div>
 
               {/* 👇 Bill/Order menu click version */}
