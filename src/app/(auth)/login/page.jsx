@@ -134,11 +134,20 @@ export default function Page() {
             </button>
 
             {/* Register link */}
-            <div className="w-full text-center mt-[26px]">
-              Bạn chưa có tài khoản?{" "}
-              <Link href="/register">
-                <span className="cursor-pointer text-[#9B8D6F] font-bold">
-                  Đăng ký
+            <div className="w-full text-center mt-4 text-sm flex flex-col items-center gap-2">
+              <div>
+                Bạn chưa có tài khoản?{" "}
+                <Link href="/register">
+                  <span className="cursor-pointer text-[#9B8D6F] font-bold">
+                    Đăng ký
+                  </span>
+                </Link>
+              </div>
+
+              <Link href="/home">
+                Quay lại
+                <span className="cursor-pointer text-[#9B8D6F] font-bold ml-1">
+                  Trang Chủ
                 </span>
               </Link>
             </div>
@@ -257,11 +266,20 @@ export default function Page() {
               <span>Đăng nhập với Google</span>
             </button>
 
-            <div className="w-full text-center mt-4 text-sm">
-              Bạn chưa có tài khoản?{" "}
-              <Link href="/register">
-                <span className="cursor-pointer text-[#9B8D6F] font-bold">
-                  Đăng ký
+            <div className="w-full text-center mt-4 text-sm flex flex-col items-center gap-2">
+              <div>
+                Bạn chưa có tài khoản?{" "}
+                <Link href="/register">
+                  <span className="cursor-pointer text-[#9B8D6F] font-bold">
+                    Đăng ký
+                  </span>
+                </Link>
+              </div>
+
+              <Link href="/home">
+                Quay lại
+                <span className="cursor-pointer text-[#9B8D6F] font-bold ml-1">
+                  Trang Chủ
                 </span>
               </Link>
             </div>
@@ -297,11 +315,12 @@ export default function Page() {
             <Image width={130} height={90} src={logo.src} alt="logo" />
           </Link>
 
+          {/* Ảnh minh hoạ nhỏ phía trên form (tuỳ thích, có thể bỏ) */}
           <div className="w-full flex justify-center mt-4 mb-2">
             {/* <img
               src={loginImage.src}
               alt="login"
-              className="w-full max-w-xs rounded-xl object-cover"
+              className="w-full max-w-xs h-[200px] rounded-xl object-cover"
             /> */}
           </div>
 
@@ -384,11 +403,20 @@ export default function Page() {
             <span>Đăng nhập với Google</span>
           </button>
 
-          <div className="w-full text-center mt-4 text-sm">
-            Bạn chưa có tài khoản?{" "}
-            <Link href="/register">
-              <span className="cursor-pointer text-[#9B8D6F] font-bold">
-                Đăng ký
+          <div className="w-full text-center mt-4 text-sm flex flex-col items-center gap-2">
+            <div>
+              Bạn chưa có tài khoản?{" "}
+              <Link href="/register">
+                <span className="cursor-pointer text-[#9B8D6F] font-bold">
+                  Đăng ký
+                </span>
+              </Link>
+            </div>
+
+            <Link href="/home">
+              Quay lại
+              <span className="cursor-pointer text-[#9B8D6F] font-bold ml-1">
+                Trang Chủ
               </span>
             </Link>
           </div>

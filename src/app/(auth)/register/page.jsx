@@ -86,11 +86,20 @@ export default function page() {
               </p>
             )}
 
-            <div className="w-full text-center mt-[26px]">
-              Bạn đã có tài khoản?{" "}
-              <Link href={"/login"}>
-                <span className="cursor-pointer text-[#9B8D6F]">
-                  <strong>Đăng nhập</strong>
+            <div className="w-full text-center mt-4 text-sm flex flex-col items-center gap-2">
+              <div>
+                Bạn đã có tài khoản?{" "}
+                <Link href="/login">
+                  <span className="cursor-pointer text-[#9B8D6F] font-bold">
+                    Đăng nhập
+                  </span>
+                </Link>
+              </div>
+
+              <Link href="/home">
+                Quay lại
+                <span className="cursor-pointer text-[#9B8D6F] font-bold ml-1">
+                  Trang Chủ
                 </span>
               </Link>
             </div>
@@ -186,11 +195,20 @@ export default function page() {
               </p>
             )}
 
-            <div className="w-full text-center mt-4 text-sm">
-              Bạn đã có tài khoản?{" "}
-              <Link href={"/login"}>
-                <span className="cursor-pointer text-[#9B8D6F] font-bold">
-                  Đăng nhập
+            <div className="w-full text-center mt-4 text-sm flex flex-col items-center gap-2">
+              <div>
+                Bạn đã có tài khoản?{" "}
+                <Link href="/login">
+                  <span className="cursor-pointer text-[#9B8D6F] font-bold">
+                    Đăng nhập
+                  </span>
+                </Link>
+              </div>
+
+              <Link href="/home">
+                Quay lại
+                <span className="cursor-pointer text-[#9B8D6F] font-bold ml-1">
+                  Trang Chủ
                 </span>
               </Link>
             </div>
@@ -293,11 +311,20 @@ export default function page() {
             </p>
           )}
 
-          <div className="w-full text-center mt-4 text-sm">
-            Bạn đã có tài khoản?{" "}
-            <Link href={"/login"}>
-              <span className="cursor-pointer text-[#9B8D6F] font-bold">
-                Đăng nhập
+          <div className="w-full text-center mt-4 text-sm flex flex-col items-center gap-2">
+            <div>
+              Bạn đã có tài khoản?{" "}
+              <Link href="/login">
+                <span className="cursor-pointer text-[#9B8D6F] font-bold">
+                  Đăng nhập
+                </span>
+              </Link>
+            </div>
+
+            <Link href="/home">
+              Quay lại
+              <span className="cursor-pointer text-[#9B8D6F] font-bold ml-1">
+                Trang Chủ
               </span>
             </Link>
           </div>

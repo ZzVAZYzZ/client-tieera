@@ -14,6 +14,7 @@ import {
   selectCartTotal,
   clearOrder,
 } from "../../../redux/features/orderInfoSlice.js";
+import { useAuth } from "../../../hook/useAuth";
 
 export default function Page() {
   const router = useRouter();
@@ -26,9 +27,7 @@ export default function Page() {
   const [errors, setErrors] = React.useState({});
   const [showModal, setShowModal] = React.useState(false);
 
-  // React.useEffect(()=>{
-  //   console.log(user);
-  // }, [user])
+  useAuth();
 
   React.useEffect(() => {
     try {
@@ -89,7 +88,7 @@ export default function Page() {
       .filter((it) => it.selected !== false) // chỉ lấy sp đã chọn
       .map((it) => ({
         product_id: it.product_id,
-        product_name: it.product_name || it.name || " ",
+        product_name: it.product_name || it.name || "",
         quantity: Math.max(1, Number(it.quantity) || 1),
         unit_price: Number(it.unit_price ?? it.price ?? 0),
         discount: Math.max(0, Number(it.discount ?? it.discount_price ?? 0)),
@@ -101,14 +100,14 @@ export default function Page() {
     // }, 0);
 
     return {
-      shipping_address: String(orderInfo.address || " ").trim(),
+      shipping_address: String(orderInfo.address || "").trim(),
       orderDetails,
       payment_method: form.payment,
     };
   }, [orderInfo]);
 
   const onChange = (key) => (e) => {
-    const value = e.target?.value ?? " ";
+    const value = e.target?.value ?? "";
     dispatch(setField({ key, value }));
     if (errors[key]) setErrors((er) => ({ ...er, [key]: undefined }));
   };
@@ -148,10 +147,10 @@ export default function Page() {
       const token =
         typeof window !== "undefined"
           ? localStorage.getItem("access_token")
-          : " ";
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+          : "";
+
       const resp = await axios.post(
-        `${API_URL}/api/orders/makeOrder`,
+        "http://localhost:8000/api/orders/makeOrder",
         {
           shipping_address: objNew.shipping_address,
           orderDetails: objNew.orderDetails,
@@ -162,7 +161,7 @@ export default function Page() {
             "Content-Type": "application/json",
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
-        }
+        },
       );
 
       if (resp && resp.status >= 200 && resp.status < 300) {
@@ -186,7 +185,7 @@ export default function Page() {
           };
           sessionStorage.setItem(
             "paymentResult",
-            JSON.stringify(paymentResult)
+            JSON.stringify(paymentResult),
           );
           router.push("/payment/result");
           return;
@@ -293,12 +292,7 @@ export default function Page() {
                     />
                     Thanh toán khi nhận hàng (COD)
                   </label>
-                  <label
-                    className="flex items-center gap-3 cursor-pointer"
-                    onClick={() => {
-                      router.push("#");
-                    }}
-                  >
+                  <label className="flex items-center gap-3 cursor-pointer">
                     <input
                       type="radio"
                       name="payment"
@@ -322,7 +316,9 @@ export default function Page() {
               </div>
 
               {errors.submit && (
-                <div className="text-sm text-red-600">{errors.submit}</div>
+                <div className="text-sm text-red-600">
+                  Lôi ! <span>Xin hãy thử lại sau ít phút</span>
+                </div>
               )}
 
               {/* Nút đặt hàng */}
