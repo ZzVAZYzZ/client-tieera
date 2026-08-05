@@ -5,12 +5,13 @@ import {
   X,
   MessageCircle,
   SendHorizontal,
+  Bot
 } from "lucide-react";
 import { io } from "socket.io-client";
 import Messenger from "../assets/icons/messenger";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-
+import AIChatBox from "./aiChatBox";
 const SOCKET_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 const ChatBox = () => {
@@ -22,8 +23,9 @@ const ChatBox = () => {
   // UI state
   const [isChatMenuOpen, setIsChatMenuOpen] = useState(false);
   const [isChatBoxOpen, setIsChatBoxOpen] = useState(false);
+  const [isAIChatOpen, setIsAIChatOpen] = useState(false);
   const [isMessengerHover, setIsMessengerHover] = useState(false);
-  const isAnyChatOpen = isChatMenuOpen || isChatBoxOpen;
+  const isAnyChatOpen = isChatMenuOpen || isChatBoxOpen || isAIChatOpen;
 
   // chat state
   const socketRef = useRef(null);
@@ -118,9 +120,10 @@ const ChatBox = () => {
 
   // Toggle nút tròn
   const handleToggleChatButton = () => {
-    if (isChatBoxOpen) {
+    if (isChatBoxOpen || isAIChatOpen) {
       // đang mở -> tắt hết
       setIsChatBoxOpen(false);
+      setIsAIChatOpen(false);
       setIsChatMenuOpen(false);
       return;
     }
@@ -148,6 +151,17 @@ const ChatBox = () => {
     setUnreadCount(0);
   };
 
+  // Mở khung chat AI
+  const handleDirectAI = () => {
+    // if (!userId) {
+    //   router.push("/login");
+    //   return;
+    // }
+
+    setIsAIChatOpen(true);
+    setIsChatMenuOpen(false);
+  };
+
   const handleSendMessage = () => {
     if (!input.trim()) return;
     const socket = socketRef.current;
@@ -169,9 +183,18 @@ const ChatBox = () => {
           preload="auto"
         />
 
+        {/* AI Chat Box */}
+        <AIChatBox isOpen={isAIChatOpen} onClose={() => setIsAIChatOpen(false)} />
+
         {/* Popup menu nhỏ */}
         {isChatMenuOpen && (
           <div className="absolute top-[-155px] right-[10px] sm:right-[-10px] md:right-[-15px] w-[230px] bg-white rounded-2xl shadow-lg p-4 flex flex-col gap-3 z-20">
+            <button
+              onClick={handleDirectAI}
+              className="w-full h-[45px] rounded-lg bg-[#6ab04c] text-white font-medium hover:opacity-90 transition flex flex-row items-center justify-center gap-2 cursor-pointer"
+            >
+              <Bot /> <p>AI hỗ trợ</p>
+            </button>
             <button
               onClick={handleDirectChat}
               className="w-full h-[45px] rounded-lg bg-[#9B8D6F] text-white font-medium hover:opacity-90 transition flex flex-row items-center justify-center gap-2 cursor-pointer"
