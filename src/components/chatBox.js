@@ -41,9 +41,9 @@ const ChatBox = () => {
     isChatBoxOpenRef.current = isChatBoxOpen;
   }, [isChatBoxOpen]);
 
-  // KẾT NỐI SOCKET 1 lần khi có userId
   useEffect(() => {
-    if (!userId) return;
+    if (!userId || !isChatBoxOpen) return;
+    if (socketRef.current) return;
 
     const socket = io(SOCKET_URL, {
       withCredentials: true,
@@ -58,34 +58,24 @@ const ChatBox = () => {
     socket.on("connect", () => {
       console.log("✅ User socket connected:", socket.id);
 
-      // lấy số unread từ backend khi connect
-      socket.emit("support:userInitUnread");
+      socket.emit("support:join");
+      socket.emit("support:markAsRead");
     });
 
     socket.on("disconnect", () => {
       console.log("❌ User socket disconnected");
     });
 
-    // BE trả về số unread ban đầu
-    socket.on("support:initUnreadForUser", ({ unreadCount }) => {
-      console.log("📊 initUnreadForUser:", unreadCount);
-      setUnreadCount(unreadCount || 0);
-    });
-
-    // lịch sử chat sau khi join
     socket.on("support:history", (history) => {
       console.log("📜 support:history", history);
       setMessages(history || []);
     });
 
-    // tin nhắn mới (user & admin) trong room này
     socket.on("support:newMessage", (msg) => {
       console.log("💬 support:newMessage", msg);
       setMessages((prev) => [...prev, msg]);
 
-      // Nếu tin từ admin
       if (msg.senderRole === "admin") {
-        // nếu khung chat đang đóng => tăng unread + phát âm thanh
         if (!isChatBoxOpenRef.current) {
           setUnreadCount((prev) => prev + 1);
 
@@ -94,7 +84,6 @@ const ChatBox = () => {
             audioRef.current.play().catch(() => {});
           }
         } else {
-          // nếu đang mở chat => coi như đang đọc -> markAsRead luôn
           socket.emit("support:markAsRead");
         }
       }
@@ -111,14 +100,14 @@ const ChatBox = () => {
     return () => {
       socket.off("connect");
       socket.off("disconnect");
-      socket.off("support:initUnreadForUser");
       socket.off("support:history");
       socket.off("support:newMessage");
       socket.off("support:error");
       socket.off("support:markAsRead:done");
       socket.disconnect();
+      socketRef.current = null;
     };
-  }, [userId]);
+  }, [userId, isChatBoxOpen]);
 
   // Auto scroll
   useEffect(() => {
