@@ -153,10 +153,10 @@ const ChatBox = () => {
 
   // Mở khung chat AI
   const handleDirectAI = () => {
-    // if (!userId) {
-    //   router.push("/login");
-    //   return;
-    // }
+    if (!userId) {
+      router.push("/login");
+      return;
+    }
 
     setIsAIChatOpen(true);
     setIsChatMenuOpen(false);
