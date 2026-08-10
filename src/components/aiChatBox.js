@@ -4,8 +4,8 @@ import { X, SendHorizontal, Loader, ShoppingBag, Mic, Volume2, Square } from "lu
 import Link from "next/link";
 import { useSelector } from "react-redux";
 
-// const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-const API_URL = "http://localhost:8000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+// const API_URL = "http://localhost:8000";
 const AIChatBox = ({ isOpen, onClose }) => {
   const userId = useSelector((state) => state.user.user?.user_id) || "anonymous";
   // Chat state
